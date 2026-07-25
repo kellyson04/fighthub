@@ -1,5 +1,6 @@
 package dev.kellyson.fighthub.service;
 
+import dev.kellyson.fighthub.dto.AssiduidadeResponse;
 import dev.kellyson.fighthub.entity.MatriculaTurma;
 import dev.kellyson.fighthub.entity.Presenca;
 import dev.kellyson.fighthub.repository.MatriculaTurmaRepository;
@@ -25,5 +26,14 @@ public class PresencaService {
         presenca.setDataPresenca(LocalDate.now());
 
         presencaRepository.save(presenca);
+    }
+
+    public AssiduidadeResponse consultarAssiduidade(Long matriculaId) {
+        MatriculaTurma matriculaTurma = matriculaTurmaRepository.findById(matriculaId)
+                .orElseThrow(() -> new RuntimeException("Matrícula não encontrada"));
+
+        long totalPresencas = presencaRepository.countByMatriculaTurmaId(matriculaTurma.getId());
+
+        return new AssiduidadeResponse(totalPresencas);
     }
 }
