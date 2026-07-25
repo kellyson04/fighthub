@@ -7,7 +7,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,10 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(
-        name = "tb_matriculas_turma",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"aluno_id", "turma_id"})
-)
+@Table(name = "tb_matriculas_turma")
 public class MatriculaTurma {
 
     @Id
