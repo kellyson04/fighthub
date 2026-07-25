@@ -49,4 +49,7 @@ public class Aluno {
     @Enumerated(EnumType.STRING)
     @Column(name = "plano_desejado", nullable = false, length = 20)
     private PlanoDesejado planoDesejado;
+
+    @Column(nullable = false)
+    private boolean ativo;
 }
