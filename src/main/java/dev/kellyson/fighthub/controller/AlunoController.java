@@ -2,6 +2,7 @@ package dev.kellyson.fighthub.controller;
 
 import dev.kellyson.fighthub.dto.AlunoRequest;
 import dev.kellyson.fighthub.dto.PerfilTreinoRequest;
+import dev.kellyson.fighthub.entity.ControlePeso;
 import dev.kellyson.fighthub.service.AlunoService;
 import dev.kellyson.fighthub.service.PerfilTreinoService;
 import jakarta.validation.Valid;
@@ -32,6 +33,13 @@ public class AlunoController {
     public ResponseEntity<Void> definirPerfilDeTreino(@PathVariable Long alunoId,
                                                       @RequestBody @Valid PerfilTreinoRequest perfilTreinoRequest) {
         perfilTreinoService.definirPerfilDeTreino(alunoId, perfilTreinoRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PostMapping("/{alunoId}/pesagens")
+    public ResponseEntity<Void> registrarNovaPesagem(@PathVariable Long alunoId,
+                                                     @RequestBody ControlePeso controlePeso) {
+        alunoService.registrarNovaPesagem(alunoId, controlePeso);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
