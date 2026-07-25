@@ -1,4 +1,4 @@
-package dev.kellyson.fighthub.entity;
+package dev.kellyson.fighthub.enums;
 
 public enum Objetivo {
     CONDICIONAMENTO_FISICO,

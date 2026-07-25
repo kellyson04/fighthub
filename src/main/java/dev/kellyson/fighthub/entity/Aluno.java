@@ -1,5 +1,7 @@
 package dev.kellyson.fighthub.entity;
 
+import dev.kellyson.fighthub.enums.Objetivo;
+import dev.kellyson.fighthub.enums.PlanoDesejado;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
