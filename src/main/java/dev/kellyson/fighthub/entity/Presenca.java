@@ -29,7 +29,7 @@ public class Presenca {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "matricula_id", nullable = false)
-    private MatriculaTurma matriculaTurma;
+    private Matricula matricula;
 
     @Column(name = "data_presenca", nullable = false)
     private LocalDate dataPresenca;

@@ -1,9 +1,9 @@
 package dev.kellyson.fighthub.service;
 
 import dev.kellyson.fighthub.dto.AssiduidadeResponse;
-import dev.kellyson.fighthub.entity.MatriculaTurma;
+import dev.kellyson.fighthub.entity.Matricula;
 import dev.kellyson.fighthub.entity.Presenca;
-import dev.kellyson.fighthub.repository.MatriculaTurmaRepository;
+import dev.kellyson.fighthub.repository.MatriculaRepository;
 import dev.kellyson.fighthub.repository.PresencaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,24 +15,24 @@ import java.time.LocalDate;
 public class PresencaService {
 
     private final PresencaRepository presencaRepository;
-    private final MatriculaTurmaRepository matriculaTurmaRepository;
+    private final MatriculaRepository matriculaRepository;
 
     public void confirmarPresenca(Long matriculaId) {
         Presenca presenca = new Presenca();
-        MatriculaTurma matriculaTurma = matriculaTurmaRepository.findById(matriculaId)
+        Matricula matricula = matriculaRepository.findById(matriculaId)
                 .orElseThrow(() -> new RuntimeException("Matrícula não encontrada"));
 
-        presenca.setMatriculaTurma(matriculaTurma);
+        presenca.setMatricula(matricula);
         presenca.setDataPresenca(LocalDate.now());
 
         presencaRepository.save(presenca);
     }
 
     public AssiduidadeResponse consultarAssiduidade(Long matriculaId) {
-        MatriculaTurma matriculaTurma = matriculaTurmaRepository.findById(matriculaId)
+        Matricula matricula = matriculaRepository.findById(matriculaId)
                 .orElseThrow(() -> new RuntimeException("Matrícula não encontrada"));
 
-        long totalPresencas = presencaRepository.countByMatriculaTurmaId(matriculaTurma.getId());
+        long totalPresencas = presencaRepository.countByMatriculaId(matricula.getId());
 
         return new AssiduidadeResponse(totalPresencas);
     }

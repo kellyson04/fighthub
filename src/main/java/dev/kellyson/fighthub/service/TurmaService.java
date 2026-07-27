@@ -2,11 +2,11 @@ package dev.kellyson.fighthub.service;
 
 import dev.kellyson.fighthub.dto.TurmaRequest;
 import dev.kellyson.fighthub.entity.Aluno;
-import dev.kellyson.fighthub.entity.MatriculaTurma;
+import dev.kellyson.fighthub.entity.Matricula;
 import dev.kellyson.fighthub.entity.PerfilTreino;
 import dev.kellyson.fighthub.entity.Turma;
 import dev.kellyson.fighthub.repository.AlunoRepository;
-import dev.kellyson.fighthub.repository.MatriculaTurmaRepository;
+import dev.kellyson.fighthub.repository.MatriculaRepository;
 import dev.kellyson.fighthub.repository.PerfilTreinoRepository;
 import dev.kellyson.fighthub.repository.TurmaRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class TurmaService {
     private final TurmaRepository turmaRepository;
     private final AlunoRepository alunoRepository;
     private final PerfilTreinoRepository perfilTreinoRepository;
-    private final MatriculaTurmaRepository matriculaTurmaRepository;
+    private final MatriculaRepository matriculaRepository;
 
     public void cadastrarTurma(TurmaRequest turmaRequest) {
         Turma turma = new Turma();
@@ -62,20 +62,20 @@ public class TurmaService {
             throw new RuntimeException("Nível do aluno não é compatível com o nível da turma.");
         }
 
-        if (matriculaTurmaRepository.existsByAlunoIdAndTurmaId(alunoId, turmaId)) {
-            throw new RuntimeException("Aluno já está matriculado nesta turma.");
+        if (matriculaRepository.existsByAlunoId(alunoId)) {
+            throw new RuntimeException("Aluno já está matriculado em uma turma.");
         }
 
-        long quantidadeAlunos = matriculaTurmaRepository.countByTurmaId(turmaId);
+        long quantidadeAlunos = matriculaRepository.countByTurmaId(turmaId);
 
         if (quantidadeAlunos >= turma.getLimiteAlunos()) {
             throw new RuntimeException("Turma atingiu o limite de alunos.");
         }
 
-        MatriculaTurma matriculaTurma = new MatriculaTurma();
-        matriculaTurma.setAluno(aluno);
-        matriculaTurma.setTurma(turma);
+        Matricula matricula = new Matricula();
+        matricula.setAluno(aluno);
+        matricula.setTurma(turma);
 
-        matriculaTurmaRepository.save(matriculaTurma);
+        matriculaRepository.save(matricula);
     }
 }

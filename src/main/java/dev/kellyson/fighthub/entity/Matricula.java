@@ -18,7 +18,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "tb_matriculas_turma")
-public class MatriculaTurma {
+public class Matricula {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
