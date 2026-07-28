@@ -33,7 +33,7 @@ public class Aluno {
     @Column(nullable = false, length = 100)
     private String nome;
 
-    @Column(nullable = false, length = 16)
+    @Column(nullable = false, unique = true, length = 16)
     private String telefone;
 
     @Column(name = "data_de_nascimento", nullable = false)
