@@ -1,6 +1,6 @@
 package dev.kellyson.fighthub.enums;
 
-public enum PlanoDesejado {
+public enum PlanoDesejadoEnum {
     MENSAL,
     TRIMESTRAL,
     SEMESTRAL

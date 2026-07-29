@@ -1,6 +1,6 @@
 package dev.kellyson.fighthub.enums;
 
-public enum Objetivo {
+public enum ObjetivoEnum {
     CONDICIONAMENTO_FISICO,
     EMAGRECIMENTO,
     COMPETICAO,
