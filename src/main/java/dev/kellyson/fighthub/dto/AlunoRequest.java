@@ -1,7 +1,7 @@
 package dev.kellyson.fighthub.dto;
 
-import dev.kellyson.fighthub.enums.Objetivo;
-import dev.kellyson.fighthub.enums.PlanoDesejado;
+import dev.kellyson.fighthub.enums.ObjetivoEnum;
+import dev.kellyson.fighthub.enums.PlanoDesejadoEnum;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
@@ -32,9 +32,9 @@ public record AlunoRequest(
         BigDecimal peso,
 
         @NotNull
-        Objetivo objetivo,
+        ObjetivoEnum objetivo,
 
         @NotNull
-        PlanoDesejado planoDesejado
+        PlanoDesejadoEnum planoDesejado
 ) {
 }

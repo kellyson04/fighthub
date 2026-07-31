@@ -1,7 +1,7 @@
 package dev.kellyson.fighthub.entity;
 
-import dev.kellyson.fighthub.enums.Objetivo;
-import dev.kellyson.fighthub.enums.PlanoDesejado;
+import dev.kellyson.fighthub.enums.ObjetivoEnum;
+import dev.kellyson.fighthub.enums.PlanoDesejadoEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -44,11 +44,11 @@ public class Aluno {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
-    private Objetivo objetivo;
+    private ObjetivoEnum objetivo;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "plano_desejado", nullable = false, length = 20)
-    private PlanoDesejado planoDesejado;
+    private PlanoDesejadoEnum planoDesejado;
 
     @Column(nullable = false)
     private boolean ativo;

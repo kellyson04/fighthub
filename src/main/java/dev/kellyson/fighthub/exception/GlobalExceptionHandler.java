@@ -29,12 +29,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErroResponse> tratarErroInterno(Exception exception,
                                                           HttpServletRequest request) {
-        log.error(
-                "Falha inesperada ao processar requisição. metodo={}, uri={}",
-                request.getMethod(),
-                request.getRequestURI(),
-                exception
-        );
 
         ErroResponse erroResponse = new ErroResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
