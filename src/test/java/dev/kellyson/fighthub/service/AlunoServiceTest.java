@@ -2,20 +2,25 @@ package dev.kellyson.fighthub.service;
 
 import dev.kellyson.fighthub.dto.AlunoRequest;
 import dev.kellyson.fighthub.entity.Aluno;
-import dev.kellyson.fighthub.enums.Objetivo;
-import dev.kellyson.fighthub.enums.PlanoDesejado;
+import dev.kellyson.fighthub.enums.ObjetivoEnum;
+import dev.kellyson.fighthub.enums.PlanoDesejadoEnum;
 import dev.kellyson.fighthub.exception.TelefoneJaCadastradoException;
 import dev.kellyson.fighthub.repository.AlunoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataAccessResourceFailureException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -38,8 +43,8 @@ class AlunoServiceTest {
                 "5511999999999",
                 LocalDate.of(2000, 1, 1),
                 new BigDecimal("75.00"),
-                Objetivo.CONDICIONAMENTO_FISICO,
-                PlanoDesejado.MENSAL
+                ObjetivoEnum.CONDICIONAMENTO_FISICO,
+                PlanoDesejadoEnum.MENSAL
         );
     }
 
@@ -52,7 +57,18 @@ class AlunoServiceTest {
         alunoService.cadastrarAluno(alunoRequest);
 
         // Assert
-        verify(alunoRepository).save(any(Aluno.class));
+        ArgumentCaptor<Aluno> captor = ArgumentCaptor.forClass(Aluno.class);
+        verify(alunoRepository).save(captor.capture());
+
+        Aluno salvo = captor.getValue();
+        assertNull(salvo.getId());
+        assertEquals(alunoRequest.nome(), salvo.getNome());
+        assertEquals(alunoRequest.telefone(), salvo.getTelefone());
+        assertEquals(alunoRequest.dataDeNascimento(), salvo.getDataDeNascimento());
+        assertEquals(alunoRequest.peso(), salvo.getPeso());
+        assertEquals(alunoRequest.objetivo(), salvo.getObjetivo());
+        assertEquals(alunoRequest.planoDesejado(), salvo.getPlanoDesejado());
+        assertTrue(salvo.isAtivo());
     }
 
     @Test
@@ -68,5 +84,17 @@ class AlunoServiceTest {
 
         // Assert
         verify(alunoRepository, never()).save(any(Aluno.class));
+    }
+
+    @Test
+    void devePropagarErroQuandoFalharAoPersistirAluno() {
+        when(alunoRepository.existsByTelefone(alunoRequest.telefone())).thenReturn(false);
+        when(alunoRepository.save(any(Aluno.class)))
+                .thenThrow(new DataAccessResourceFailureException("falha banco"));
+
+        assertThrows(
+                DataAccessResourceFailureException.class,
+                () -> alunoService.cadastrarAluno(alunoRequest)
+        );
     }
 }
